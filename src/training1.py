@@ -1,12 +1,15 @@
 from src.utils.data_mgmt import get_data
+
+import pickle
+
 import tensorflow as tf
 import os
 
 
 
-def trainig123():
+def trainig123(path):
 
-    x_train_scaled, y_train, x_test_scaled, y_test = get_data()
+    x_train_scaled, y_train, x_test_scaled, y_test = get_data(path)
 
     print("Get_Data Called")
 
@@ -40,14 +43,22 @@ def trainig123():
                   epochs = 100
                 )
     
-    print("********"*10)
+    return model
+   
+def save_model(model):
+    print("We are at save model")
+    filename = "trained_model.sav"
+    model.save("model.h5")
+
+    
+    
 if __name__ == "__main__":
     print("We are at Main")
     try:
-        print("#######################Training Started##############################")
-        path = "diabetes.csv"
+        path = os.path.join(os.getcwd(),"diabetes.csv")
         #path = "C:\\Users\\DELL\\Desktop\\LLIVE_DEMO\\Diabetic_prediction_ANN\\diabetes.csv"
-        trainig123()
+        model = trainig123(path)
+        save_model(model)
 
         print("#######################Training Completed##############################")
     except Exception as e:
